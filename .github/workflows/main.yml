@@ -24,12 +24,7 @@ jobs:
                    which chromedriver || echo "❌ ChromeDriver not found!"
                      which geckodriver || echo "❌ GeckoDriver not found!"
 
-      - name: Install ChromeDriver & GeckoDriver
-        run: |
-                 sudo apt-get update
-                 sudo apt-get install -y chromium-chromedriver firefox-geckodriver
-
-
+      
       - name: Build Project (Maven)
         run: mvn clean package -DskipTests=true  # If using Maven
 
