@@ -35,6 +35,11 @@ jobs:
       - name: List Target Directory
         run: ls -lah target  # This will show if the JAR file exists
 
+      - name: Start Virtual Display for UI Tests
+        run: |
+          Xvfb :99 &  # Create virtual display
+          export DISPLAY=:99  # Set DISPLAY variable so browsers can open
+
       - name: Execute Tests
         run: |
           set -e  # Stop script on errors
