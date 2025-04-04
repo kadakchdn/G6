@@ -33,7 +33,7 @@ jobs:
           echo "✅ Listing files before execution..."
           ls -lah
           echo "✅ Running Java Test..."
-          java -jar RajeshTheVampire-1.0.0-jar-with-dependencies.jar || echo "❌ Test execution failed, but continuing."
+          java -jar rajeshthevampire-1.0.0-jar-with-dependencies.jar || echo "❌ Test execution failed, but continuing."
  
       - name: Find Report File
         run: |
