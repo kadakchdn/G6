@@ -43,6 +43,9 @@ jobs:
               echo "⚠️ No selenium.log found. The server might not have started."
            fi
 
+      - name: Check if Selenium Server is Running
+        run: curl -s http://localhost:4444/status || echo "❌ Selenium is NOT running!"
+
       - name: Execute Tests
         run: |
           set -e  # Stop script on errors
