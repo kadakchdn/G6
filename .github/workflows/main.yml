@@ -19,14 +19,16 @@ jobs:
           distribution: 'temurin'  
           java-version: '17'  # Adjust based on your project
 
-      - name: Install Browser (Google Chrome)
+      - name: Check Installed Browser Drivers
         run: |
-          echo "🔄 Installing Google Chrome..."
-          sudo apt update
-          sudo apt install -y wget
-          wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo apt install -y ./google-chrome-stable_current_amd64.deb
-          google-chrome --version  # Verify installation
+                   which chromedriver || echo "❌ ChromeDriver not found!"
+                     which geckodriver || echo "❌ GeckoDriver not found!"
+
+      - name: Install ChromeDriver & GeckoDriver
+        run: |
+                 sudo apt-get update
+                 sudo apt-get install -y chromium-chromedriver firefox-geckodriver
+
 
       - name: Build Project (Maven)
         run: mvn clean package -DskipTests=true  # If using Maven
