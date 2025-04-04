@@ -32,13 +32,15 @@ jobs:
       - name: List Target Directory
         run: ls -lah target  # This will show if the JAR file exists
 
-      - name: Debug - Check Selenium Server Logs
+      # ✅ Start Selenium Server in Headless Mode
+      - name: Start Selenium Server
         run: |
-           if [ -f selenium.log ]; then
-              cat selenium.log
-              else
-              echo "⚠️ No selenium.log found. The server might not have started."
-           fi
+          nohup java -jar selenium-server-4.10.0.jar standalone --headless > selenium.log 2>&1 &
+          sleep 5  # Wait for server to start
+
+      # ✅ Verify Selenium Server is Running
+      - name: Check Selenium Grid Status
+        run: curl -I http://localhost:4444 || echo "❌ Selenium Grid is NOT running!"
 
       - name: Check if Selenium Server is Running
         run: curl -s http://localhost:4444/status || echo "❌ Selenium is NOT running!"
