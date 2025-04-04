@@ -35,10 +35,13 @@ jobs:
       - name: List Target Directory
         run: ls -lah target  # This will show if the JAR file exists
 
-      - name: Start Virtual Display for UI Tests
+      - name: Debug - Check Selenium Server Logs
         run: |
-          Xvfb :99 &  # Create virtual display
-          export DISPLAY=:99  # Set DISPLAY variable so browsers can open
+           if [ -f selenium.log ]; then
+              cat selenium.log
+              else
+              echo "⚠️ No selenium.log found. The server might not have started."
+           fi
 
       - name: Execute Tests
         run: |
