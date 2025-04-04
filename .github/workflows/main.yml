@@ -12,20 +12,29 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4  
- 
+
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'  
           java-version: '17'  # Adjust based on your project
- 
+
+      - name: Install Browser (Google Chrome)
+        run: |
+          echo "🔄 Installing Google Chrome..."
+          sudo apt update
+          sudo apt install -y wget
+          wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install -y ./google-chrome-stable_current_amd64.deb
+          google-chrome --version  # Verify installation
+
       - name: Build Project (Maven)
         run: mvn clean package -DskipTests=true  # If using Maven
- 
+
       # Debugging Step: List files in target directory
       - name: List Target Directory
-        run: ls -lah target  # This will show if new2.jar exists
- 
+        run: ls -lah target  # This will show if the JAR file exists
+
       - name: Execute Tests
         run: |
           set -e  # Stop script on errors
@@ -34,7 +43,7 @@ jobs:
           ls -lah
           echo "✅ Running Java Test..."
           java -jar rajeshthevampire-1.0.0-jar-with-dependencies.jar || echo "❌ Test execution failed, but continuing."
- 
+
       - name: Find Report File
         run: |
           REPORT_FILE=$(find target -type f -name "index.html" | sort -r | head -1 || true)
@@ -44,7 +53,7 @@ jobs:
           fi
           echo "Latest report file: $REPORT_FILE"
           echo "REPORT_FILE=$REPORT_FILE" >> $GITHUB_ENV
- 
+
       - name: Upload HTML Report
         uses: actions/upload-artifact@v4
         with:
