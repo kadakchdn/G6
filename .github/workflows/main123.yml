@@ -28,26 +28,11 @@ jobs:
       - name: Build Project (Maven)
         run: mvn clean package -DskipTests=true  # If using Maven
 
-      - name: Run App & Wait for Selenium Server JAR
+      - name: Run Suite JAR from Target Directory
         run: |
-              cd target
-
+             cd target
               echo "🚀 Running Suite JAR..."
-              nohup java -jar rajeshthevampire-1.0.0-jar-with-dependencies.jar > app.log 2>&1 &
-
-              echo "⏳ Waiting for selenium-server jar to appear..."
-              for i in {1..20}; do
-               if ls selenium-server-*.jar 1> /dev/null 2>&1; then
-              echo "✅ Selenium server jar found!"
-              break
-              else
-              echo "Waiting... ($i/20)"
-              sleep 3
-              fi
-              done
-
-              echo "🔍 Listing directory contents:"
-              ls -lh
+              java -jar rajeshthevampire-1.0.0-jar-with-dependencies.jar
 
 
       # Debugging Step: List files in target directory
