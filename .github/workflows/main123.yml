@@ -38,6 +38,14 @@ jobs:
           nohup java -jar selenium-server-4.10.0.jar standalone --headless > selenium.log 2>&1 &
           sleep 30  # Wait for server to start
 
+      # log selenium server
+      - name: Check Selenium Server Log
+        run: cat selenium.log
+
+      # Check port
+      - name: Is port 4444 bound?
+        run: lsof -i :4444 || echo "❌ Nothing is running on 4444"
+
       # ✅ Verify Selenium Server is Running
       - name: Check Selenium Grid Status
         run: curl -I http://localhost:4444 || echo "❌ Selenium Grid is NOT running!"
