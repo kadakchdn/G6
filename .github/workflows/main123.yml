@@ -36,7 +36,7 @@ jobs:
       - name: Start Selenium Server
         run: |
           nohup java -jar selenium-server-4.10.0.jar standalone --headless > selenium.log 2>&1 &
-          sleep 5  # Wait for server to start
+          sleep 30  # Wait for server to start
 
       # ✅ Verify Selenium Server is Running
       - name: Check Selenium Grid Status
