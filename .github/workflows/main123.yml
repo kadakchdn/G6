@@ -41,6 +41,13 @@ jobs:
       - name: List Target Directory
         run: ls -lah target  # This will show if the JAR file exists
 
+      - name: Wait & List Files After App Starts
+        run: |
+            sleep 15
+            echo "✅ Listing files AFTER app execution..."
+            find . -type f
+
+
       # ✅ Start Selenium Server in Headless Mode
       - name: Start Selenium Server
         run: |
