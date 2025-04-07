@@ -30,16 +30,40 @@ jobs:
 
       
 
-      - name: Execute Tests
-        run: |
-          set -e  # Stop script on errors
-          cd target
-          echo "✅ Listing files before execution..."
-          ls -lah
-          echo "✅ Running Java Test..."
-          java -jar rajeshthevampire-1.0.0-jar-with-dependencies.jar || echo "❌ Test execution failed, but continuing."
-          echo "✅ Listing files before execution..."
-          ls -lah
+      - name: Run Suite, Wait for Selenium Server, and Start Grid
+  run: |
+    cd target
+
+    echo "🚀 Running Suite JAR..."
+    nohup java -jar rajeshthevampire-1.0.0-jar-with-dependencies.jar > app.log 2>&1 &
+
+    echo "⏳ Waiting for selenium-server jar to appear..."
+    for i in {1..20}; do
+      if ls selenium-server-*.jar 1> /dev/null 2>&1; then
+        echo "✅ Selenium server jar found!"
+        break
+      else
+        echo "Waiting... ($i/20)"
+        sleep 3
+      fi
+    done
+
+    echo "🚀 Starting Selenium Grid manually..."
+    nohup java -jar selenium-server-*.jar standalone > selenium.log 2>&1 &
+
+    echo "⏳ Waiting for Selenium Grid to be up..."
+    for i in {1..10}; do
+      if curl -s http://localhost:4444 | grep -q "Selenium"; then
+        echo "✅ Selenium Grid is running!"
+        break
+      else
+        echo "Waiting for Selenium Grid... ($i/10)"
+        sleep 3
+      fi
+    done
+
+    echo "📜 Current Directory Contents:"
+    ls -lh
  
 
 
