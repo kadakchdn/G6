@@ -61,13 +61,6 @@ jobs:
             find . -type f
 
 
-      # log selenium server
-      - name: Check Selenium Server Log
-        run: cat selenium.log
-
-      # Check port
-      - name: Is port 4444 bound?
-        run: lsof -i :4444 || echo "❌ Nothing is running on 4444"
 
       # ✅ Verify Selenium Server is Running
       - name: Check Selenium Grid Status
