@@ -28,6 +28,15 @@ jobs:
       - name: Build Project (Maven)
         run: mvn clean package -DskipTests=true  # If using Maven
 
+      - name: Execute Tests
+        run: |
+          set -e  # Stop script on errors
+          cd target
+          echo "✅ Listing files before execution..."
+          ls -lah
+          echo "✅ Running Java Test..."
+          java -jar rajeshthevampire-1.0.0-jar-with-dependencies.jar || echo "❌ Test execution failed, but continuing."
+
       # Debugging Step: List files in target directory
       - name: List Target Directory
         run: ls -lah target  # This will show if the JAR file exists
@@ -53,14 +62,7 @@ jobs:
       - name: Check if Selenium Server is Running
         run: curl -s http://localhost:4444/status || echo "❌ Selenium is NOT running!"
 
-      - name: Execute Tests
-        run: |
-          set -e  # Stop script on errors
-          cd target
-          echo "✅ Listing files before execution..."
-          ls -lah
-          echo "✅ Running Java Test..."
-          java -jar rajeshthevampire-1.0.0-jar-with-dependencies.jar || echo "❌ Test execution failed, but continuing."
+      
 
       - name: Find Report File
         run: |
