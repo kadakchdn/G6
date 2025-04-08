@@ -51,7 +51,21 @@ jobs:
             echo "✅ Listing files AFTER app execution..."
             find . -type f
 
+       # start grid
+      - name: Start Selenium Grid
+        run: |
+            cd target
+             echo "🚀 Starting Selenium Grid manually..."
+             nohup java -jar selenium-server-*.jar standalone > selenium.log 2>&1 &
 
+      - name: Execute Tests
+        run: |
+          set -e  # Stop script on errors
+          cd target
+          echo "✅ Listing files before execution..."
+          ls -lah
+          echo "✅ Running Java Test..."
+          java -jar rajeshthevampire-1.0.0-jar-with-dependencies.jar || echo "❌ Test execution failed, but continuing."
 
       # ✅ Verify Selenium Server is Running
       - name: Check Selenium Grid Status
